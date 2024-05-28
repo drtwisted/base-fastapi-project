@@ -1,9 +1,23 @@
 # Launch the project
+## Prerequisites
+Make sure you have installed:
+ * `docker`
+ * `docker-compose`
+ * `poetry`
+ * (optional) `conda` you may need to install it in order to satisfy the python version
+
+## Setup environment
+To setup the dev environemnt you will have to take next steps:
+ * Setup a python virtual environment with the tool of your choice
+ * Activate your virtual environment and run:
+```bash
+poetry install --with=dev --no-root
+```
 
 ## Run CLI tool
 > **NOTE**
 >
-> You'll need to setup the environment before you'll be able to run the CLI tool
+> You'll need to have the virtual environment actiavted before you'll be able to run the CLI tool
 
 Make sure that the CLI tool has run priviledges:
 ```bash
