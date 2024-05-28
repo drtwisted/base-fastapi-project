@@ -1,0 +1,31 @@
+services:
+  backend:
+    container_name: backend-test
+    image: backend
+    profiles:
+      - backend
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        - UID
+        - GID
+        - USER_NAME
+        - POETRY_VERSION
+        - APP_PORT
+        - BUILD_TARGET
+    restart: always
+    env_file:
+      - ./envs/.env
+    volumes:
+      - ./src:/home/${USER_NAME}/app
+    ports:
+      - "8080:8080"
+      - "5678:5678"
+    
+volumes:
+  sources:
+    driver_opts:
+      type: bind
+      device: ./src 
+      o: bind
