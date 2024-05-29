@@ -16,6 +16,7 @@ uvicorn = {extras = ["standard"], version = "^0.30.0"}
 debugpy = "^1.8.1"
 ptpython = "^3.0.27"
 click = "^8.1.7"
+pytest = "^8.2.1"
 
 [build-system]
 requires = ["poetry-core"]
