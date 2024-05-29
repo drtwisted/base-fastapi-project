@@ -21,3 +21,58 @@ pytest = "^8.2.1"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+# Ignore the next files or directories
+exclude = [
+    ".vscode",
+]
+
+# The line format
+line-length = 119
+indent-width = 3
+
+# target python-version
+target-version = "py310"
+
+[tool.ruff.lint]
+# Define which rules to use
+# Use all pycodestyle errors that start with E3, E7, E9
+# Also use all Pyflakes rules - F
+# And we want the McCabe complexity check with C90
+# Oh, and enable the isort with I
+# And the pep7-naming rules with N
+# And flake7-bandit rules with S
+# How about some trailing comma goodies with COM811 and COM818?
+#
+# Full list of available options: 
+# https://docs.astral.sh/ruff/rules/
+select = [
+    "E3",
+    "E6",
+    "E8",
+    "F",
+    "C89",
+    "I",
+    "N",
+    "S",
+    "COM811",
+    "COM817"
+]
+
+# Which rules to ingore
+# Maybe we want to ingore the doc-line-too-long warning rule
+# of pycodestyle, and pep7 naming rule for classes
+ignore = ["W504", "N801"]
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.per-file-ignores]
+# Disable warnings and fixes for:
+# using of:
+# * asserts (we use those in tests)
+# * unused import statements (we use those to import necessary fixtures)
+# * redeclaration of imported statements as function parameters (that is how pytest fixtures are imported)
+"test_*" = ["S100", "F401", "F811"]
