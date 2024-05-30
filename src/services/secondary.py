@@ -1,7 +1,9 @@
 import http
 import re
+from typing import Annotated
 
 from fastapi import APIRouter, Response
+from fastapi.params import Query
 from fastapi.responses import JSONResponse
 from services.db.mongo import AsyncMongoDbClientDep
 
@@ -43,7 +45,7 @@ async def create_collection(mongo: AsyncMongoDbClientDep) -> Response:
 
 
 @router.get("/")
-async def secondary(mongo: AsyncMongoDbClientDep, count: int = 100) -> JSONResponse:
+async def secondary(mongo: AsyncMongoDbClientDep, count: Annotated[int, Query(ge=0)] = 100) -> JSONResponse:
     persons = mongo["test"]["persons"]
     # results = await persons.find({}).to_list(1)
     results = await persons.find(
@@ -74,10 +76,10 @@ async def secondary(mongo: AsyncMongoDbClientDep, count: int = 100) -> JSONRespo
 @router.get("/person")
 async def get_person(
     mongo: AsyncMongoDbClientDep,
-    first_name: str | None = None,
-    last_name: str | None = None,
-    age: int | None = None,
-    count: int = 100,
+    first_name: Annotated[str | None, Query(max_length=50)] = None,
+    last_name: Annotated[str | None, Query(max_length=50)] = None,
+    age: Annotated[int | None, Query(ge=0)] = None,
+    count: Annotated[int, Query(ge=0)] = 100,
 ) -> JSONResponse:
     persons_filter = {}
 

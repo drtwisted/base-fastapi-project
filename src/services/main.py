@@ -1,6 +1,7 @@
 import http
+from typing import Annotated
 
-from fastapi import APIRouter, Response
+from fastapi import APIRouter, Path, Response
 from fastapi.responses import JSONResponse
 from services.db.sqlite import AsyncSessionDep
 from sqlalchemy import text
@@ -59,9 +60,10 @@ async def get_persons(session: AsyncSessionDep) -> JSONResponse:
 
 
 @router.get("/person/{id}")
-async def get_presons(id: int, session: AsyncSessionDep) -> JSONResponse:
+async def get_presons(id: Annotated[int, Path(gt=0)], session: AsyncSessionDep) -> JSONResponse:
     result = await session.execute(text(f"SELECT id, first_name, last_name FROM persons WHERE id={id};"))
 
-    response = {name: value for name, value in zip(("id", "first_name", "last_name"), result.first())}
+    person = result.first() or ()
+    response = {name: value for name, value in zip(("id", "first_name", "last_name"), person)}
 
     return JSONResponse(response)
