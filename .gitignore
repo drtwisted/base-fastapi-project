@@ -4,3 +4,9 @@
 # Python cache
 __pycache__/
 *.pyc
+
+# Docker container files
+docker_data/
+
+# Database files
+test.db

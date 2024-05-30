@@ -1,9 +1,21 @@
+version: "3.8"
 services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./docker_data/mongodb:/data/db
+    # networks:
+    #   - backend
+
   backend:
     container_name: backend-test
     image: backend
     profiles:
       - backend
+    depends_on:
+      - mongodb
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -22,10 +34,3 @@ services:
     ports:
       - "8080:8080"
       - "5678:5678"
-    
-volumes:
-  sources:
-    driver_opts:
-      type: bind
-      device: ./src 
-      o: bind
