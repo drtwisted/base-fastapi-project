@@ -31,8 +31,8 @@ exclude = [
 ]
 
 # The line format
-line-length = 119
-indent-width = 3
+line-length = 120
+indent-width = 4
 
 # target python-version
 target-version = "py310"
