@@ -26,7 +26,8 @@ async def create_table(session: AsyncSessionDep) -> Response:
             """CREATE TABLE persons (
                     id INT PRIMARY KEY,
                     first_name VARCHAR(100),
-                    last_name VARCHAR(100)
+                    last_name VARCHAR(100),
+                    age INT
                 );""",
         ),
     )
@@ -34,13 +35,13 @@ async def create_table(session: AsyncSessionDep) -> Response:
         text("CREATE INDEX ids_id ON persons (id);"),
     )
     persons = (
-        (1, "John", "Doe"),
-        (2, "Sarah", "Conor"),
-        (3, "Bruce", "Lee"),
+        (1, "John", "Doe", 30),
+        (2, "Sarah", "Conor", 35),
+        (3, "Bruce", "Lee", 33),
     )
     await session.execute(
         text(
-            f"""INSERT INTO persons (id, first_name, last_name)
+            f"""INSERT INTO persons (id, first_name, last_name, age)
             VALUES
                 {', '.join([str(p) for p in persons])};""",
         ),
@@ -52,9 +53,11 @@ async def create_table(session: AsyncSessionDep) -> Response:
 
 @router.get("/persons")
 async def get_persons(session: AsyncSessionDep) -> JSONResponse:
-    results = await session.execute(text("SELECT id, first_name, last_name FROM persons;"))
+    results = await session.execute(text("SELECT id, first_name, last_name, age FROM persons;"))
 
-    response = [{name: value for name, value in zip(("id", "first_name", "last_name"), row)} for row in results.all()]
+    response = [
+        {name: value for name, value in zip(("id", "first_name", "last_name", "age"), row)} for row in results.all()
+    ]
 
     return JSONResponse(response)
 
