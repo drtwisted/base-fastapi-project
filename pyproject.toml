@@ -11,6 +11,8 @@ package-mode = false
 python = "~3.11"
 fastapi = {extras = ["all"], version = "^0.111.0"}
 uvicorn = {extras = ["standard"], version = "^0.30.0"}
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.30"}
+aiosqlite = "^0.20.0"
 
 [tool.poetry.group.dev.dependencies]
 debugpy = "^1.8.1"
@@ -43,36 +45,35 @@ target-version = "py310"
 # Oh, and enable the isort with I
 # And the pep7-naming rules with N
 # And flake7-bandit rules with S
-# How about some trailing comma goodies with COM811 and COM818?
+# How about some trailing comma goodies with COM812 and COM818?
 #
 # Full list of available options: 
 # https://docs.astral.sh/ruff/rules/
 select = [
     "E3",
-    "E6",
-    "E8",
+    "E7",
+    "E9",
     "F",
-    "C89",
+    "C90",
     "I",
     "N",
     "S",
-    "COM811",
-    "COM817"
+    "COM812",
+    "COM818"
 ]
 
 # Which rules to ingore
 # Maybe we want to ingore the doc-line-too-long warning rule
 # of pycodestyle, and pep7 naming rule for classes
-ignore = ["W504", "N801"]
+ignore = ["W505", "N801"]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]
 unfixable = []
 
 [tool.ruff.lint.per-file-ignores]
-# Disable warnings and fixes for:
-# using of:
+# Disable warnings and fixes in test files for using of:
 # * asserts (we use those in tests)
 # * unused import statements (we use those to import necessary fixtures)
 # * redeclaration of imported statements as function parameters (that is how pytest fixtures are imported)
-"test_*" = ["S100", "F401", "F811"]
+"test_*" = ["S101", "F401", "F811"]
